@@ -19,7 +19,7 @@ steel_slist_node_t *steel_slist_elem_to_node(const steel_slist_t *slist, void *e
   return (steel_slist_node_t *)((uintprt_t)elem + slist->ssl_elem_offset);
 }
 
-void steel_slist_insert(steel_slist_t *slist, void *elem) {
+void steel_slist_insert_tail(steel_slist_t *slist, void *elem) {
   steel_slist_node_t *node;
   node = steel_slist_elem_to_node(slist, elem);
 
