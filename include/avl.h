@@ -1,7 +1,7 @@
 #ifndef STEEL_AVL_H_
 #define STEEL_AVL_H_
 
-#include "steel.h"
+#include "base.h"
 
 struct steel_avl_node {
   struct steel_avl_node san_children[2];
