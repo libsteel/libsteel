@@ -1,5 +1,6 @@
 #include "avl.h"
 
+#include <assert.h>
 #include <stdint.h>
 
 void steel_avl_init(steel_avl_tree_t *sat, size_t elem_size, size_t link_offset,
@@ -20,7 +21,7 @@ void *steel_avl_node_to_elem(const steel_avl_tree *sat, steel_avl_node_t *san) {
   return (void *)((uintptr_t)san - sat->sat_link_offset);
 }
 
-void *steel_avl_search(steel_avl_tree *sat, const void *key) {
+void *steel_avl_search(const steel_avl_tree *sat, const void *key) {
   steel_avl_node_t *node;
 
   node = sat->sat_root;
@@ -40,5 +41,6 @@ void *steel_avl_search(steel_avl_tree *sat, const void *key) {
 }
 
 void steel_avl_fini(steel_avl_tree_t *sat) {
-  (void) sat;
+  assert(sat->sat_count == 0);
+  assert(sat->root == NULL);
 }
