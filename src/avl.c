@@ -11,3 +11,7 @@ void steel_avl_create(steel_avl_tree_t *sat, size_t elem_size, size_t link_offse
   sat->sat_allocator = allocator;
   sat->sat_deallocator = deallocator;
 }
+
+void steel_avl_destroy(steel_avl_tree_t *sat) {
+	(void) sat;
+}
