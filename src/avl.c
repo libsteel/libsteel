@@ -1,6 +1,7 @@
 #include "avl.h"
 
 #include <assert.h>
+#include <stddef.h>
 #include <stdint.h>
 
 void steel_avl_init(steel_avl_tree_t *sat, size_t elem_size, size_t link_offset,
