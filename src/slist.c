@@ -76,7 +76,7 @@ void *steel_slist_remove_head(steel_slist_t *ssl) {
 }
 
 void *steel_slist_remove(steel_slist_t *ssl, void *elem) {
-  slist_node_t *to_find;
+  slist_node_t *to_find, *current_node;
   to_find = steel_slist_elem_to_node(ssl, elem);
 
   /* Special case for head node */
@@ -85,7 +85,6 @@ void *steel_slist_remove(steel_slist_t *ssl, void *elem) {
     return elem;
   }
 
-  slist_node_t *current_node;
   current_node = ssl->ssl_head;
   while (current_node->ssn_next != NULL) {
     if (current->ssn_next == to_find) {
