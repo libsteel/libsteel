@@ -93,7 +93,6 @@ void *steel_avl_insert(const steel_avl_tree *sat, void *elem) {
   steel_avl_node_t *node;
   steel_avl_node_t *new_node;
   steel_avl_node_t *unbalanced_node;
-  steel_avl_node_t *unbalanced_node_parent;
   steel_avl_node_t **next_nodep;
   int cmp;
 
@@ -106,7 +105,6 @@ void *steel_avl_insert(const steel_avl_tree *sat, void *elem) {
   }
 
   unbalanced_node = NULL;
-  unbalanced_node_parent = NULL;
 
   node = sat->sat_root;
   next_nodep = NULL;
@@ -149,8 +147,8 @@ void *steel_avl_insert(const steel_avl_tree *sat, void *elem) {
   /* rebalance the tree via rotations */
   node = unbalanced_node;
   if (node != NULL) {
-    left = no->san_children[0];
-    right = no->san_children[1];
+    left = node->san_children[0];
+    right = node->san_children[1];
     if (node->san_balance == -2) {
       if (node->san_balance == -1) {
         steel_avl_rotate_left(sat, node);
