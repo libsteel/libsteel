@@ -16,14 +16,16 @@
 #ifndef STEEL_SLIST_H
 #define STEEL_SLIST_H
 
-typedef struct steel_slist_node {
+#include <stddef.h>
+
+struct steel_slist_node {
   struct steel_slist_node *ssn_next;
 };
 typedef struct steel_slist_node steel_slist_node_t;
 
-typedef struct steel_slist {
+struct steel_slist {
   size_t ssl_elem_size;
-  size_t ssl_link_offset
+  size_t ssl_link_offset;
 
   steel_slist_node_t *ssl_head;
   steel_slist_node_t *ssl_tail;

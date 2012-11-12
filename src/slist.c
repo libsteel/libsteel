@@ -16,13 +16,14 @@
 #include "slist.h"
 
 #include <assert.h>
+#include <stdint.h>
 
 static steel_slist_node_t *steel_slist_elem_to_node(const steel_slist_t *ssl, void *elem) {
-  return (steel_slist_node_t *)((uintprt_t)elem + ssl->ssl_elem_offset);
+  return (steel_slist_node_t *)((uintptr_t)elem + ssl->ssl_link_offset);
 }
 
 static void *steel_slist_node_to_elem(const steel_slist_t *ssl, steel_slist_node_t *node) {
-    return (void *)((uintptr_t)node - ssl->ssl_link_offset);
+  return (void *)((uintptr_t)node - ssl->ssl_link_offset);
 }
 
 void steel_slist_init(steel_slist_t *ssl, size_t elem_size, size_t link_offset) {
@@ -80,7 +81,7 @@ void *steel_slist_insert_tail(steel_slist_t *ssl, void *elem) {
 }
 
 void *steel_slist_insert_after(steel_slist_t *ssl, void *after, void *elem) {
-  steel_slist_node_t *to_insert
+  steel_slist_node_t *to_insert;
   steel_slist_node_t *after_node;
 
   to_insert = steel_slist_elem_to_node(ssl, elem);
@@ -93,7 +94,7 @@ void *steel_slist_insert_after(steel_slist_t *ssl, void *after, void *elem) {
 }
 
 void *steel_slist_remove_head(steel_slist_t *ssl) {
-  slist_node_t *old_head;
+  steel_slist_node_t *old_head;
 
   old_head = ssl->ssl_head;
   ssl->ssl_head = ssl->ssl_head->ssn_next;
@@ -101,8 +102,8 @@ void *steel_slist_remove_head(steel_slist_t *ssl) {
 }
 
 void *steel_slist_remove(steel_slist_t *ssl, void *elem) {
-  slist_node_t *to_find;
-  slist_node_t *current_node;
+  steel_slist_node_t *to_find;
+  steel_slist_node_t *current_node;
 
   to_find = steel_slist_elem_to_node(ssl, elem);
 
