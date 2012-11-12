@@ -28,13 +28,12 @@ void *steel_slist_insert_head(steel_slist_t *ssl, void *elem) {
   to_insert = steel_slist_elem_to_node(ssl, elem);
 
   if (ssl->ssl_head == NULL) {
-    ssl->ssl_head = to_insert;
     ssl->ssl_tail = to_insert;
     to_insert->ssn_next = NULL;
   } else {
     to_insert->ssn_next = ssl->ssl_head;
-    ssl->ssl_head = to_insert;
   }
+  ssl->ssl_head = to_insert;
 
   return elem;
 }
