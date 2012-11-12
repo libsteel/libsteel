@@ -32,37 +32,69 @@ void *steel_avl_search(const steel_avl_tree *sat, const void *key) {
 
     cmp = sat->sat_comparator(key, steel_avl_node_to_elem(sat, node));
     if (cmp < 0) {
-      node = sat->sat_comparator[0];
+      node = node->san_children[0];
     } else if (cmp > 0) {
-      node = sat->sat_comparator[1];
+      node = node->san_children[1];
     } else {
-      break;
+      return steel_avl_node_to_elem(sat, node);
     }
   }
 
-  if (node == NULL) {
-    return NULL;
-  }
+  return NULL;
+}
 
-  return steel_avl_node_to_elem(sat, node);
+void steel_avl_node_init(const steel_avl_tree *sat, steel_avl_node_t *san) {
+    san->san_children[0] = NULL;
+    san->san_children[1] = NULL;
+    san->san_parent = NULL;
+    san->san_balance = 0;
 }
 
 void *steel_avl_insert(const steel_avl_tree *sat, void *elem) {
+  steel_avl_node_t *node;
+  steel_avl_node_t *new_node;
+  steel_avl_node_t **next_nodep;
+  int cmp;
+
   if (sat->sat_root == NULL) {
     /* the tree must be empty, make elem the new root */
-    steel_avl_node_t *new_node;
-
-    new_node = steel_avl_elem_to_node(elem);
-    new_node->san_children[0] = NULL;
-    new_node->san_children[1] = NULL;
-    new_node->san_parent = NULL;
-    new_node->san_balance = 0;
-
+    steel_avl_elem_init(steel_avl_elem_to_node(elem));
     return elem;
   }
 
-  // XXX: deal with more complicated cases here
-  assert(false);
+  node = sat->sat_root;
+  new_node = steel_avl_node_to_elem(sat, elem);
+  next_nodep = NULL;
+  for (;;) {
+    cmp = sat->sat_comparator(elem, steel_avl_node_to_elem(sat, node));
+    if (cmp < 0) {
+      next_nodep = &san->san_children[0];
+    } else if (cmp > 0) {
+      next_nodep = &san->san_children[1];
+    } else {
+      return elem;
+    }
+
+    if (*next_nodep == NULL) {
+      steel_avl_node_init(new_node);
+      if (cmp < 0) {
+        *next_nodep = new_node;
+      } else {
+        *next_nodep = new_node;
+      }
+      break;
+    }
+
+    if (*next_nodep->balance != 0) {
+      unbalanced_node_parent = node;
+      unbalanced_node = *next_nodep;
+    }
+
+    node = *next_nodep;
+  }
+
+  // TODO: rebalance!
+
   return NULL;
 }
 
