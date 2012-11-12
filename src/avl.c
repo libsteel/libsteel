@@ -13,8 +13,6 @@ void steel_avl_init(steel_avl_tree_t *sat, size_t elem_size, size_t link_offset,
   sat->sat_root = NULL;
 
   sat->sat_comparator = comparator;
-  sat->sat_allocator = allocator;
-  sat->sat_deallocator = deallocator;
 }
 
 static void *steel_avl_node_to_elem(const steel_avl_tree *sat, steel_avl_node_t *san) {
