@@ -2,7 +2,7 @@
 #define STEEL_SINGLY_LINKED_LIST_H
 
 typedef struct steel_slist_node{
-  struct steel_slist_node *next;
+  struct steel_slist_node *ssn_next;
 };
 typedef struct steel_slist_node steel_slist_node_t;
 
