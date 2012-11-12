@@ -12,12 +12,43 @@ static steel_avl_node_t *steel_avl_elem_to_node(const steel_avl_tree_t *sat, voi
   return (steel_avl_node_t *)((uintptr_t)elem + sat->sat_link_offset);
 }
 
-void steel_avl_rotate_left(const steel_avl_tree_t *sat, steel_avl_node_t *san) {
-  // TODO: fill in!
+static void steel_avl_swap_parent(const steel_avl_tree_t *sat, steel_avl_node_t *old, steel_avl_node_t *new) {
+  if (old->san_parent == NULL) {
+    sat->sat_root = new;
+  } else if (old->san_parent->san_children[0] == old) {
+    old->san_parent->san_children[0] = new;
+  } else if (old->san_parent->san_children[1] == old) {
+    old->san_parent->san_children[1] = new;
+  }
+  if (new != NULL) {
+    new->san_parent = old->san_parent;
+  }
 }
 
-void steel_avl_rotate_right(const steel_avl_tree_t *sat, steel_avl_node_t *san) {
-  // TODO: fill in!
+static void steel_avl_rotate_left(const steel_avl_tree_t *sat, steel_avl_node_t *san) {
+  steel_avl_node_t *right;
+
+  right = san->san_children[1];
+  steel_avl_swap_parent(sat, san, right);
+  san->san_children[1] = right->san_children[0];
+  if (right->san_children[0] != NULL) {
+    right->san_children[0]->san_parent = san;
+  }
+  right->san_children[0] = san;
+  san->san_parent = right;
+}
+
+static void steel_avl_rotate_right(const steel_avl_tree_t *sat, steel_avl_node_t *san) {
+  steel_avl_node_t *left;
+
+  left = san->san_children[0];
+  steel_avl_swap_parent(sat, san, left);
+  san->san_children[0] = left->san_children[1];
+  if (left->san_children[1] != NULL) {
+    left->san_children[1]->san_parent = san;
+  }
+  left->san_children[1] = san;
+  san->san_parent = left;
 }
 
 void steel_avl_init(steel_avl_tree_t *sat, size_t elem_size, size_t link_offset,
@@ -102,7 +133,7 @@ void *steel_avl_insert(const steel_avl_tree *sat, void *elem) {
     node = *next_nodep;
   }
 
-  // fix-up balance factors
+  /* fix-up balance factors */
   node = unbalanced_node;
   while (node != NULL && node != new_node) {
     cmp = sat->sat_comparator(elem, steel_avl_node_to_elem(sat, node));
@@ -115,14 +146,13 @@ void *steel_avl_insert(const steel_avl_tree *sat, void *elem) {
     }
   }
 
-  // rebalance the tree via rotations
+  /* rebalance the tree via rotations */
   node = unbalanced_node;
   if (node != NULL) {
     left = no->san_children[0];
     right = no->san_children[1];
     if (node->san_balance == -2) {
       if (node->san_balance == -1) {
-        // left_rotate(P)
         steel_avl_rotate_left(sat, node);
       } else if (node->san_balance == 1) {
         steel_avl_rotate_right(sat, right);
