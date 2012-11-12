@@ -10,8 +10,8 @@ typedef struct steel_slist{
   size_t ssl_elem_size;
   size_t ssl_link_offset
 
-  steel_slist_node_t *head;
-  steel_slist_node_t *tail;
+  steel_slist_node_t *ssl_head;
+  steel_slist_node_t *ssl_tail;
 };
 typedef struct steel_slist steel_slist_t;
 
