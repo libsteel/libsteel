@@ -1,0 +1,7 @@
+INCLUDE_DIRECTORIES(${PROJECT_SOURCE_DIR}/include)
+
+SET(SRC
+  slist.c
+)
+
+ADD_LIBRARY(steel ${SRC})
