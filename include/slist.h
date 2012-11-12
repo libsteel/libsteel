@@ -1,12 +1,12 @@
 #ifndef STEEL_SLIST_H
 #define STEEL_SLIST_H
 
-typedef struct steel_slist_node{
+typedef struct steel_slist_node {
   struct steel_slist_node *ssn_next;
 };
 typedef struct steel_slist_node steel_slist_node_t;
 
-typedef struct steel_slist{
+typedef struct steel_slist {
   size_t ssl_elem_size;
   size_t ssl_link_offset
 

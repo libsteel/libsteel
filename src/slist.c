@@ -1,6 +1,6 @@
 #include "slist.h"
 
-#include "assert.h"
+#include <assert.h>
 
 static steel_slist_node_t *steel_slist_elem_to_node(const steel_slist_t *ssl, void *elem) {
   return (steel_slist_node_t *)((uintprt_t)elem + ssl->ssl_elem_offset);
@@ -25,6 +25,7 @@ void steel_slist_fini(steel_slist_t *ssl) {
 
 void *steel_slist_insert_head(steel_slist_t *ssl, void *elem) {
   steel_slist_node_t *to_insert;
+
   to_insert = steel_slist_elem_to_node(ssl, elem);
 
   if (ssl->ssl_head == NULL) {
