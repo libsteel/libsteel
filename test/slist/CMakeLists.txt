@@ -1,0 +1,5 @@
+INCLUDE_DIRECTORIES(${PROJECT_SOURCE_DIR}/include)
+ADD_EXECUTABLE(ListInitTests list_init_tests.c)
+TARGET_LINK_LIBRARIES(ListInitTests steel)
+
+ADD_TEST(ListInitTests ${CMAKE_CURRENT_BINARY_DIR}/ListInitTests)
