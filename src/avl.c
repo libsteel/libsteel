@@ -48,8 +48,6 @@ void *steel_avl_search(const steel_avl_tree *sat, const void *key) {
 }
 
 void *steel_avl_insert(const steel_avl_tree *sat, void *elem) {
-  void *parent;
-
   if (sat->sat_root == NULL) {
     /* the tree must be empty, make elem the new root */
     steel_avl_node_t *new_node;
@@ -60,12 +58,7 @@ void *steel_avl_insert(const steel_avl_tree *sat, void *elem) {
     new_node->san_parent = NULL;
     new_node->san_balance = 0;
 
-    return new_node;
-  }
-
-  if (sat->sat_comparator(elem, parent) == 0) {
-    /* there is an identical element already in the tree */
-    return parent;
+    return elem;
   }
 
   // XXX: deal with more complicated cases here
