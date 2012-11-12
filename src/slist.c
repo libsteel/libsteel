@@ -41,6 +41,7 @@ void *steel_slist_insert_head(steel_slist_t *ssl, void *elem) {
 
 void *steel_slist_insert_tail(steel_slist_t *ssl, void *elem) {
   steel_slist_node_t *to_insert;
+
   to_insert = steel_slist_elem_to_node(ssl, elem);
 
   if (ssl->ssl_head == NULL) {
