@@ -19,6 +19,10 @@ void steel_slist_init(steel_slist_t *ssl, size_t elem_size, size_t link_offset);
 
 void steel_slist_fini(steel_slist_t *ssl);
 
+void *steel_slist_head(steel_slist_t *ssl);
+
+void *steel_slist_tail(steel_slist_t *ssl);
+
 void *steel_slist_insert_head(steel_slist_t *ssl, void *elem);
 
 void *steel_slist_insert_tail(steel_slist_t *ssl, void *elem);

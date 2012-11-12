@@ -23,6 +23,14 @@ void steel_slist_fini(steel_slist_t *ssl) {
   assert(ssl->ssl_tail == NULL);
 }
 
+void *steel_slist_head(steel_slist_t *ssl){
+  return steel_slist_node_to_elem(ssl, ssl->ssl_head);
+}
+
+void *steel_slist_tail(steel_slist_t *ssl){
+  return steel_slist_node_to_elem(ssl, ssl->ssl_tail);
+}
+
 void *steel_slist_insert_head(steel_slist_t *ssl, void *elem) {
   steel_slist_node_t *to_insert;
 
