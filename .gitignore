@@ -11,5 +11,5 @@
 *.la
 *.a
 
-#build directory
+# build directory
 build
