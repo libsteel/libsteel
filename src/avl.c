@@ -41,15 +41,18 @@ void *steel_avl_search(const steel_avl_tree *sat, const void *key) {
       break;
     }
   }
+
+  if (node == NULL) {
+    return NULL;
+  }
+
   return steel_avl_node_to_elem(sat, node);
 }
 
 void *steel_avl_insert(const steel_avl_tree *sat, void *elem) {
   void *parent;
 
-  /* look for a node that would be a suitable parent */
-  parent = steel_avl_search(sat, elem);
-  if (parent == NULL) {
+  if (sat->sat_root == NULL) {
     /* the tree must be empty, make elem the new root */
     steel_avl_node_t *new_node;
 
