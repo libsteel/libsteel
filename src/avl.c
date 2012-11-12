@@ -5,8 +5,7 @@
 #include <stdint.h>
 
 void steel_avl_init(steel_avl_tree_t *sat, size_t elem_size, size_t link_offset,
-                    steel_ordered_comparator_t comparator, steel_allocator_t allocator,
-                    steel_deallocator_t deallocator) {
+                    steel_ordered_comparator_t comparator) {
   sat->sat_count = 0;
   sat->sat_elem_size = elem_size;
   sat->sat_link_offset = link_offset;
@@ -18,8 +17,12 @@ void steel_avl_init(steel_avl_tree_t *sat, size_t elem_size, size_t link_offset,
   sat->sat_deallocator = deallocator;
 }
 
-void *steel_avl_node_to_elem(const steel_avl_tree *sat, steel_avl_node_t *san) {
+static void *steel_avl_node_to_elem(const steel_avl_tree *sat, steel_avl_node_t *san) {
   return (void *)((uintptr_t)san - sat->sat_link_offset);
+}
+
+static steel_avl_node_t *steel_avl_elem_to_node(const steel_avl_tree *sat, void *elem) {
+  return (steel_avl_node_t *)((uintptr_t)elem + sat->sat_link_offset);
 }
 
 void *steel_avl_search(const steel_avl_tree *sat, const void *key) {
@@ -39,6 +42,34 @@ void *steel_avl_search(const steel_avl_tree *sat, const void *key) {
     }
   }
   return steel_avl_node_to_elem(sat, node);
+}
+
+void *steel_avl_insert(const steel_avl_tree *sat, void *elem) {
+  void *parent;
+
+  /* look for a node that would be a suitable parent */
+  parent = steel_avl_search(sat, elem);
+  if (parent == NULL) {
+    /* the tree must be empty, make elem the new root */
+    steel_avl_node_t *new_node;
+
+    new_node = steel_avl_elem_to_node(elem);
+    new_node->san_children[0] = NULL;
+    new_node->san_children[1] = NULL;
+    new_node->san_parent = NULL;
+    new_node->san_balance = 0;
+
+    return new_node;
+  }
+
+  if (sat->sat_comparator(elem, parent) == 0) {
+    /* there is an identical element already in the tree */
+    return parent;
+  }
+
+  // XXX: deal with more complicated cases here
+  assert(false);
+  return NULL;
 }
 
 void steel_avl_fini(steel_avl_tree_t *sat) {
