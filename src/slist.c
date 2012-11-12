@@ -6,8 +6,8 @@ static steel_slist_node_t *steel_slist_elem_to_node(const steel_slist_t *ssl, vo
   return (steel_slist_node_t *)((uintprt_t)elem + ssl->ssl_elem_offset);
 }
 
-static void *steel_slist_node_to_elem(const steel_slist_t *ssl, steel_slist_node_t *elem) {
-    return (void *)((uintptr_t)elem - ssl->ssl_link_offset);
+static void *steel_slist_node_to_elem(const steel_slist_t *ssl, steel_slist_node_t *node) {
+    return (void *)((uintptr_t)node - ssl->ssl_link_offset);
 }
 
 void steel_slist_init(steel_slist_t *ssl, size_t elem_size, size_t link_offset) {
