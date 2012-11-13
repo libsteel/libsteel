@@ -1,1 +1,6 @@
+MACRO(ADD_UNIT_TEST  testname filename )
+  ADD_EXECUTABLE(${testname} ${filename})
+  TARGET_LINK_LIbraries(${testname} steel)
+  ADD_TEST(${testname}  ${CMAKE_CURRENT_BINARY_DIR}/${testname})
+ENDMACRO(ADD_UNIT_TEST)
 ADD_SUBDIRECTORY(slist)
